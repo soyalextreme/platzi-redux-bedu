@@ -1,16 +1,18 @@
+import React, { useState } from "react";
+
 function App() {
-  const placeRows = () => [
-    <tr>
-      <td>Alejandro</td>
-      <td>alex@mail.com</td>
-      <td>alejandro.com</td>
-    </tr>,
-    <tr>
-      <td>Juan</td>
-      <td>juan@mail.com</td>
-      <td>juan.com</td>
-    </tr>,
-  ];
+  const [users, setUsers] = useState([
+    {
+      name: "Alejandro",
+      email: "alex@mail.com",
+      website: "alex.com",
+    },
+    {
+      name: "Juan",
+      email: "juan@mail.com",
+      website: "juan.com.mx",
+    },
+  ]);
 
   return (
     <div className="margin">
@@ -22,7 +24,15 @@ function App() {
             <th>Enlace:</th>
           </tr>
         </thead>
-        <tbody>{placeRows()}</tbody>
+        <tbody>
+          {users.map((user)  => (
+            <tr>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.website}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
