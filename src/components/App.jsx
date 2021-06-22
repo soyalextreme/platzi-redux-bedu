@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
-  const [users, setUsers] = useState([
-    {
-      name: "Alejandro",
-      email: "alex@mail.com",
-      website: "alex.com",
-    },
-    {
-      name: "Juan",
-      email: "juan@mail.com",
-      website: "juan.com.mx",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+
+    const fetchDataLoadDataAsync = async () => {
+      const responseJson = await axios.get('https://jsonplaceholder.typicode.com/users')
+      setUsers(responseJson.data)
+
+    } 
+
+    fetchDataLoadDataAsync()
+  }, []);
 
   return (
     <div className="margin">
@@ -25,8 +26,8 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user)  => (
-            <tr>
+          {users.map((user) => (
+            <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.website}</td>
