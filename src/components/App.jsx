@@ -1,42 +1,23 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Nav from "./Nav";
+import NotFound from "./NotFound";
+import Users from "./Users";
+import Tasks from "./Tasks";
 
-function App() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-
-    const fetchDataLoadDataAsync = async () => {
-      const responseJson = await axios.get('https://jsonplaceholder.typicode.com/users')
-      setUsers(responseJson.data)
-
-    } 
-
-    fetchDataLoadDataAsync()
-  }, []);
-
+const App = () => {
   return (
-    <div className="margin">
-      <table className="table">
-        <thead>
-          <tr className="padding-2">
-            <th>Name:</th>
-            <th>Email:</th>
-            <th>Enlace:</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.website}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <Router>
+        <Nav/>
+        <Switch>
+          <Route exact path="/" component={Users} />
+          <Route exact path="/tasks" component={Tasks}    />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
+    </>
   );
-}
+};
 
 export default App;
