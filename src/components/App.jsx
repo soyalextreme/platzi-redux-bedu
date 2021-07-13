@@ -9,10 +9,10 @@ const App = () => {
   return (
     <>
       <Router>
-        <Nav/>
-        <Switch>
+        <Nav />
+        <Switch className="margin">
           <Route exact path="/" component={Users} />
-          <Route exact path="/tasks" component={Tasks}    />
+          <Route exact path="/tasks" component={Tasks} />
           <Route component={NotFound} />
         </Switch>
       </Router>

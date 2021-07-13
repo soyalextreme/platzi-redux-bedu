@@ -1,42 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import * as UserActions from "../../actions/usersActions";
+import Spinner from "../Spinner";
+import Error from "../Error";
+import Table from "./Table";
+import { mapStateToProps } from "./lib";
 
-function Users() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const fetchDataLoadDataAsync = async () => {
-      const responseJson = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      setUsers(responseJson.data);
+function Users({ users, error, loading, setUsers, setError }) {
+  const userEffectFetchInitial = useRef(() => {
+    const fetchUsersAsync = async () => {
+      try {
+        const res = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        setUsers(res.data);
+      } catch (error) {
+        setUsers([]);
+        setError(error.message);
+      }
     };
 
-    fetchDataLoadDataAsync();
-  }, []);
+    fetchUsersAsync();
+  });
+
+  useEffect(() => {
+    userEffectFetchInitial.current();
+  }, [userEffectFetchInitial]);
 
   return (
-    <div className="margin">
-      <table className="table">
-        <thead>
-          <tr className="padding-2">
-            <th>Name:</th>
-            <th>Email:</th>
-            <th>Enlace:</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.website}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {error && <Error />}
+      {loading && <Spinner />}
+      {!loading && !error ? <Table /> : null}
+    </>
   );
 }
 
-export default Users;
+export default connect(mapStateToProps, UserActions)(Users);

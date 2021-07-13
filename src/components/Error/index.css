@@ -1,0 +1,15 @@
+.Error__container {
+    text-align: center;
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.Error__message {
+    font-style: normal;
+    font-family: 'Courier New', Courier, monospace;
+    color: red;
+}
